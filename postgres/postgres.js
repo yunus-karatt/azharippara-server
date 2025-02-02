@@ -1,18 +1,18 @@
-
 import { Sequelize } from "sequelize";
 import { createUserModel } from "../models/userSchema.js";
+import { createHouseModel } from "../models/houseSchema.js";
 
 const sequelize = new Sequelize("azharippara", "postgres", "967697", {
   host: "localhost",
   dialect: "postgres",
 });
 
-let UserModel = null;
-const connnection = async () => {
+
+const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-    UserModel = await createUserModel(sequelize);
+
     await sequelize.sync();
     console.log("database synced");
   } catch (error) {
@@ -20,4 +20,4 @@ const connnection = async () => {
   }
 };
 
-export { connnection, UserModel };
+export { connectDB,sequelize };

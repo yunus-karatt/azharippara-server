@@ -24,6 +24,10 @@ export const createUserModel = async (sequelize) => {
       type: DataTypes.INTEGER,
       defaultValue: ROLES.OFFICE_ADMIN,
     },
+    isBlocked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
   return User;
 };

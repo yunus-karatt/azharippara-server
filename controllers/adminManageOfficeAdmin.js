@@ -1,7 +1,7 @@
 import db from "../models/index.js";
 import { hashPassword } from "../utils/authUtils.js";
 
-export const createAdmin = async (req, res) => {
+export const createOfficeAdmin = async (req, res) => {
   try {
     const { name, userName, password, verifyPassword } = req.body;
 
@@ -25,7 +25,6 @@ export const createAdmin = async (req, res) => {
       name,
       userName,
       password: hashedPassword,
-      role: 1,
     });
     if (newUser) {
       const { password, ...userwithoutPassword } = newUser.get({ plain: true });
@@ -36,29 +35,6 @@ export const createAdmin = async (req, res) => {
     }
   } catch (error) {
     console.log({ error });
-    return res.status(500).json({ error: error.error });
-  }
-};
-
-export const blockAdmin = async (req, res) => {
-  const { adminId } = req.params;
-  const { isBlocked } = req.body;
-  console.log({ adminId, isBlocked });
-  try {
-    const admin = await db.UserModel.findOne({ where: { id: adminId } });
-    if (!admin) {
-      return res.status(404).json({ message: "Admin not found" });
-    }
-    if (isBlocked === undefined) {
-      return res.status(400).json({
-        message: "Action is required. Please specify 'block' or 'unblock'.",
-      });
-    }
-    admin.isBlocked = isBlocked;
-    await admin.save();
-    return res.status(200).json({ message: `success` });
-  } catch (error) {
-    console.log({ error });
-    return res.status(500).json({ error: error.error });
+    return res.status(500).json({ error: error });
   }
 };
